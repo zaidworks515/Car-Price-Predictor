@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Price Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Car Price Predictor</h1>
+
+    <form id="carForm" method="POST" action="/predict">
+        <label for="car_name">Car Name*:</label>
+        <input type="text" name="car_name" required placeholder="E.g., Corolla/Civic" onkeyup="capitalizeFirstLetter(this)"><br><br>
+
+        <label for="manufacturer">Manufacturer*:</label>
+        <input type="text" name="manufacturer" required placeholder="E.g., Toyota/Honda" onkeyup="capitalizeFirstLetter(this)"><br><br>
+        <label for="model_year">Model Year*:</label>
+        <select name="model_year" required>
+            {% for year in range(1952, 2024) %}
+                <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="kms_driven">Kilometeres Driven*:</label>
+        <input type="number" name="kms_driven" required placeholder="E.g., 500"><br><br>
+
+        <label for="fuel_type">Fuel Type*:</label>
+        <select name="fuel_type" required>
+            <option value="Petrol">Petrol</option>
+            <option value="CNG">CNG</option>
+            <option value="Diesel">Diesel</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="Electric">Electric</option>
+        </select><br><br>
+
+        <label for="engine_cc">Engine (CC)*:</label>
+        <input type="number" name="engine_cc" required placeholder="E.g., 660"><br><br>
+
+        <label for="transmission">Transmission Type*:</label>
+        <select name="transmission" required>
+            <option value="Automatic">Automatic</option>
+            <option value="Manual">Manual</option>
+        </select><br><br>
+
+        <label for="condition">Condition Out Of 10*:</label>
+        <select name="condition" required>
+            {% for i in range(1, 11) %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="repainted">Repainted?*:</label>
+        <select name="repainted" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select><br><br>
+
+        <button type="submit" id="button">Submit</button>
+    </form>
+
+
+    <div id="predictionResult">
+        <h2>Results:</h2>
+
+    </div>
+
+    <script>
+    function capitalizeFirstLetter(input) {
+    var words = input.value.split(' ');
+    for (var i = 0; i < words.length; i++) {
+        var word = words[i];
+        words[i] = word.charAt(0).toUpperCase() + word.slice(1); }
+
+    input.value = words.join(' ');
+    }
+
+    document.getElementById("carForm").addEventListener("submit", function (event) {
+        event.preventDefault();  // Prevent the default form submission
+        submitForm();
+    });
+
+    function submitForm() {
+        var formData = new FormData(document.getElementById("carForm"));
+        var xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                var predictionResult = document.getElementById("predictionResult");
+                if (xhr.status === 200) {
+                    // Successful response
+                    var response = JSON.parse(xhr.responseText);
+                    predictionResult.innerHTML = "The price should be: PKR " + " " + parseInt(response.prediction);
+
+                } else if (xhr.status === 400) {
+                    // Error response
+                    predictionResult.innerHTML = "Error: Data not found"; // Display "Data not found"
+                }
+            }
+        };
+
+        xhr.open("POST", "/predict", true);
+        xhr.send(formData);
+    }
+    </script>
+
+</body>
+</html>
