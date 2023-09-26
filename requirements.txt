@@ -1,0 +1,9 @@
+Flask
+pandas
+numpy
+joblib
+tensorflow
+matplotlib
+scikit-learn
+catboost
+#xgboost  (if want to use xgb regressor)
