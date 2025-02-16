@@ -21,7 +21,23 @@ jobs:
         key: ${{ secrets.AZURE_VM_SSH_KEY }}
         script: |
           cd ~/car_price_predictor
-          git pull origin main
-          source venv/bin/activate  # If using a virtual environment
+
+          # Ensure Python 3.8 is installed
+          sudo apt update
+          sudo apt install -y python3.8 python3.8-venv python3.8-dev
+
+          # Create a virtual environment with Python 3.8 if not exists
+          if [ ! -d "venv" ]; then
+            python3.8 -m venv venv
+          fi
+
+          source venv/bin/activate  # Activate the virtual environment
+
+          # Ensure pip is up to date
+          pip install --upgrade pip
+
+          git pull origin main  # Pull the latest changes
+
           pip install -r requirements.txt  # Install dependencies
-          sudo systemctl restart car_price_predictor.service  # Restart your application
+
+          sudo systemctl restart car_price_predictor.service  # Restart the application
