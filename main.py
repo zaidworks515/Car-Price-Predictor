@@ -62,5 +62,4 @@ def predict():
         return jsonify({'error_message': 'Data not found'})
 
 if __name__ == '__main__':
-    webbrowser.open_new('http://localhost:5000')
-    app.run(debug=True, use_reloader=False, port=5000, host='localhost')
+    app.run(debug=True, use_reloader=False, port=5000, host='0.0.0.0')
