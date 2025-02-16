@@ -62,4 +62,4 @@ def predict():
         return jsonify({'error_message': 'Data not found'})
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False, port=5000, host='0.0.0.0')
+    app.run(debug=False, port=5000, host='0.0.0.0')
