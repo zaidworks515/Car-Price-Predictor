@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import joblib
 import webbrowser
-
 app = Flask(__name__)
 
 model = joblib.load('data and models/cat_boost_regressor.pkl')
