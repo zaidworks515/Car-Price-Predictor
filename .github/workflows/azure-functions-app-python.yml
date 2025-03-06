@@ -20,15 +20,15 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          cd ~/car_price_predictor
+          cd ~/Car_Price_Predictor 
 
-          # Ensure Python 3.8 is installed
+          # Ensure Python 3.10 is installed
           sudo apt update
-          sudo apt install -y python3.8 python3.8-venv python3.8-dev
+          sudo apt install -y python3.10 python3.10-venv python3.10-dev
 
-          # Create a virtual environment with Python 3.8 if not exists
+          # Create a virtual environment with Python 3.10 if not exists
           if [ ! -d "venv" ]; then
-            python3.8 -m venv venv
+            python3.10 -m venv venv
           fi
 
           source venv/bin/activate  # Activate the virtual environment
