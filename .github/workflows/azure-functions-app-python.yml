@@ -20,7 +20,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          cd ~/Car_Price_Predictor 
+          cd ~/Car-Price-Predictor 
 
           # Ensure Python 3.10 is installed
           sudo apt update
